@@ -1,5 +1,4 @@
-//import { loadGame, saveGame } from "engine/storage";
-console.log("sad");
+import { loadGame, saveGame } from "engine/storage";
 
 const chat = document.getElementById("console");
 const form = document.getElementById("form");
@@ -167,6 +166,13 @@ var gameState = {
   inventory: {},
   userProfile: userProfile,
 };
+
+gameState.history.push({
+  type: historyTypeEnum.RESPONSE,
+  text: "hellosssa",
+  time: new Date().getTime(),
+});
+writeAllNewMessagesToChat();
 
 function getResponse() {
   const lastCommand = gameState.history[gameState.history.length - 1];
