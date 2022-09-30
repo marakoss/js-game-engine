@@ -1,0 +1,23 @@
+{
+  "name": "thegame",
+  "version": "1.0.0",
+  "description": "text game engine",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marakoss/js-game-engine.git"
+  },
+  "author": "Marek Králík",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/marakoss/js-game-engine/issues"
+  },
+  "homepage": "https://github.com/marakoss/js-game-engine#readme",
+  "dependencies": {
+    "typescript": "^4.8.4"
+  }
+}
