@@ -1,5 +1,6 @@
 body {
   padding: 20px 50px;
+  background: black;
 }
 
 * {
@@ -12,7 +13,7 @@ body .console {
   max-height: 500px;
   height: 100%;
   padding: 20px;
-  border: 1px solid black;
+  border: 1px solid white;
   overflow: auto;
 }
 
@@ -34,14 +35,19 @@ body .console {
   right: 0;
   bottom: 0;
   background: black;
-  border: none;
+  border: 1px solid #555;
+  color: white;
+}
+
+input {
+  background: black;
   color: white;
 }
 
 .command {
-  color: green;
+  color: lightgreen;
 }
 
 .response {
-  color: red;
+  color: lightcoral;
 }

@@ -4,7 +4,8 @@
   "description": "text game engine",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "esbuild ./src/index.ts --bundle --minify --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=.build/index.js",
+    "dev": "esbuild ./src/index.ts --bundle --sourcemap --watch --target=chrome58,firefox57,safari11,edge16 --outfile=.build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +19,10 @@
   },
   "homepage": "https://github.com/marakoss/js-game-engine#readme",
   "dependencies": {
+    "esbuild": "^0.15.10",
     "typescript": "^4.8.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.23"
   }
 }

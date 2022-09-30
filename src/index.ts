@@ -1,7 +1,10 @@
+//import { loadGame, saveGame } from "engine/storage";
+console.log("sad");
+
 const chat = document.getElementById("console");
 const form = document.getElementById("form");
 const input = document.getElementById("command");
-const saveGameFile = "myGame";
+
 loadGame();
 
 const historyTypeEnum = Object.freeze({
@@ -29,40 +32,8 @@ form.addEventListener("submit", function (event) {
 
   clearInput();
   writeAllNewMessagesToChat();
-  saveGame();
+  saveGame(gameState);
 });
-
-function saveGame() {
-  if (!isLocalStorageAvailable()) return;
-
-  const gameData = {
-    gameState: gameState,
-  };
-
-  localStorage.setItem(saveGameFile, JSON.stringify(gameData));
-}
-
-function loadGame() {
-  if (!isLocalStorageAvailable()) return;
-
-  const data = localStorage.getItem(saveGameFile);
-  if (data !== null) {
-    const gameData = JSON.parse(data);
-    gameState = gameData.gameState;
-  }
-}
-
-function isLocalStorageAvailable() {
-  var test = "test";
-  try {
-    localStorage.setItem(test, test);
-    localStorage.removeItem(test);
-    return true;
-  } catch (e) {
-    console.warn("Cannot store/load gameData");
-    return false;
-  }
-}
 
 const levenshteinDistance = (str1 = "", str2 = "") => {
   const track = Array(str2.length + 1)
