@@ -10,4 +10,4 @@ const app = createWebApp(
 );
 
 app.registerHandler(game.handleInput);
-app.writeNewMessagesToOutput(game.state.history);
+app.initialize(game);

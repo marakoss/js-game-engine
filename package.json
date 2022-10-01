@@ -6,6 +6,7 @@
   "scripts": {
     "build": "esbuild ./src/index.ts --bundle --minify --sourcemap  --platform=browser --target=chrome58,firefox57,safari11,edge16 --outdir=.build",
     "dev": "esbuild ./src/index.ts --bundle --sourcemap --watch --platform=browser --target=chrome58,firefox57,safari11,edge16 --outdir=.build",
+	"tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -4,7 +4,7 @@ import { possibleCommands } from "constants/commands";
 import { GameActionEnum } from "constants/game";
 import { playerProfile } from "game/player";
 
-export function getResponse(state: IGameState, dispatch: Function) {
+export function getResponse(state: IGameState, dispatch: Function): string {
 	if (
 		(state !== null &&
 			typeof state === "object" &&

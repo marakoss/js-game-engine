@@ -1,4 +1,5 @@
 import { IHistory } from "types/history";
+import { IGame } from "types/game";
 import { IGameState } from "types/gamestate";
 
 export function createWebApp(
@@ -9,6 +10,9 @@ export function createWebApp(
 	var messageCounter = 0;
 
 	return {
+		initialize: function (game: IGame) {
+			this.writeNewMessagesToOutput(game.state.history);
+		},
 		registerHandler: function (handler: (input: string) => IGameState) {
 			watch.addEventListener("submit", (e: any) => {
 				e.preventDefault();
