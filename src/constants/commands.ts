@@ -6,6 +6,8 @@ export enum possibleCommands {
 	WEST = "west",
 	EAST = "east",
 	JMENO = "jmeno",
+	RESET = "reset",
+	SAVE = "save",
 }
 
 export const commandAliases = {
@@ -15,4 +17,6 @@ export const commandAliases = {
 	SOUTH: ["s", "jih"],
 	EAST: ["e", "vychod"],
 	JMENO: ["jmeno", "me jmeno", "jake je me jmeno"],
+	RESET: ["reset"],
+	SAVE: ["save"],
 };

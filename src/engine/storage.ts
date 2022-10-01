@@ -26,6 +26,12 @@ export function loadGame() {
 	return null;
 }
 
+export function resetGame() {
+	if (!isLocalStorageAvailable()) return;
+	localStorage.removeItem(saveGameFile);
+	return true;
+}
+
 function isLocalStorageAvailable() {
 	var test = "test";
 	try {
