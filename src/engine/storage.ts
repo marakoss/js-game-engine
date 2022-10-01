@@ -1,34 +1,39 @@
+import type { IGameState } from "types/gamestate";
 import { saveGameFile } from "constants/storage";
 
-export function saveGame(gameState: object) {
-  if (!isLocalStorageAvailable()) return;
+// TODO: Storage engine abstraction
 
-  const gameData = {
-    gameState: gameState,
-  };
+export function saveGame(gameState: IGameState) {
+	if (!isLocalStorageAvailable()) return;
 
-  localStorage.setItem(saveGameFile, JSON.stringify(gameData));
+	const gameData = {
+		gameState: gameState,
+	};
+
+	localStorage.setItem(saveGameFile, JSON.stringify(gameData));
 }
 
 export function loadGame() {
-  if (!isLocalStorageAvailable()) return;
+	if (!isLocalStorageAvailable()) return;
 
-  const data = localStorage.getItem(saveGameFile);
-  if (data !== null) {
-    const gameData = JSON.parse(data);
-    return gameData.gameState;
-  }
-  return null;
+	const data = localStorage.getItem(saveGameFile);
+	if (data !== null) {
+		const gameData = JSON.parse(data);
+		// TODO: validate game data
+
+		return gameData.gameState as IGameState;
+	}
+	return null;
 }
 
 function isLocalStorageAvailable() {
-  var test = "test";
-  try {
-    localStorage.setItem(test, test);
-    localStorage.removeItem(test);
-    return true;
-  } catch (e) {
-    console.warn("Cannot store/load gameData");
-    return false;
-  }
+	var test = "test";
+	try {
+		localStorage.setItem(test, test);
+		localStorage.removeItem(test);
+		return true;
+	} catch (e) {
+		console.warn("Cannot store/load gameData");
+		return false;
+	}
 }

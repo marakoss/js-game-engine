@@ -1,53 +1,53 @@
 body {
-  padding: 20px 50px;
-  background: blue;
+	padding: 20px 50px;
+	background: black;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body .console {
-  width: 100%;
-  min-height: 100px;
-  max-height: 500px;
-  height: 100%;
-  padding: 20px;
-  border: 1px solid white;
-  overflow: auto;
+	width: 100%;
+	min-height: 100px;
+	max-height: 500px;
+	height: 100%;
+	padding: 20px;
+	border: 1px solid white;
+	overflow: auto;
 }
 
 #command {
-  width: 100%;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-family: monospace;
+	width: 100%;
+	padding: 10px 20px;
+	font-size: 16px;
+	font-family: monospace;
 }
 
 #form {
-  position: relative;
+	position: relative;
 }
 
 #form button {
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background: black;
-  border: 1px solid #555;
-  color: white;
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: black;
+	border: 1px solid #555;
+	color: white;
 }
 
 input {
-  background: black;
-  color: white;
+	background: black;
+	color: white;
 }
 
-.command {
-  color: lightgreen;
+.COMMAND {
+	color: lightgreen;
 }
 
-.response {
-  color: lightcoral;
+.RESPONSE {
+	color: lightcoral;
 }
