@@ -1,18 +1,24 @@
 import { IHistory } from "types/history";
+import { IGameState } from "types/gamestate";
 
 export function createWebApp(
 	stdin: HTMLInputElement,
 	stdout: HTMLElement,
-	watch: HTMLFormElement,
-	handleInput: Function
+	watch: HTMLFormElement
 ) {
 	var messageCounter = 0;
-	watch.addEventListener("submit", (e: any) => {
-		e.preventDefault();
-		handleInput();
-	});
 
 	return {
+		registerHandler: function (handler: (input: string) => IGameState) {
+			watch.addEventListener("submit", (e: any) => {
+				e.preventDefault();
+				const text = this.readInput();
+				const newGameState = handler(text);
+				this.writeNewMessagesToOutput(newGameState.history);
+				this.clearInput();
+				this.scrollBottom();
+			});
+		},
 		readInput: function () {
 			return stdin.value;
 		},
