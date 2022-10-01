@@ -22,8 +22,9 @@ const handleSubmit = function () {
 		time: new Date().getTime(),
 	});
 
-	app.clearInput();
 	writeAllNewMessagesToChat(gameState);
+	app.clearInput();
+	app.scrollBottom();
 	saveGame(gameState);
 };
 

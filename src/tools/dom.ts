@@ -19,5 +19,11 @@ export function createWebApp(
 		writeOutput: function (element: HTMLElement) {
 			stdout.appendChild(element);
 		},
+		scrollBottom: function () {
+			stdout.scroll({
+				top: stdout.scrollHeight,
+				behavior: "smooth",
+			});
+		},
 	};
 }
