@@ -1,10 +1,11 @@
 import { historyTypeEnum } from "constants/history";
 import { IGameState } from "types/gamestate";
 import { playerProfile } from "./player";
+import { LocationsEnum } from "constants/locations";
 
 export const initialGameState: IGameState = {
 	messageCounter: 0,
-	currentPosition: 0,
+	currentPosition: LocationsEnum.HOTEL_LOBBY,
 	history: [
 		{
 			type: historyTypeEnum.RESPONSE,
@@ -15,6 +16,7 @@ export const initialGameState: IGameState = {
 				transformedInput: "",
 			},
 			time: new Date().getTime(),
+			location: LocationsEnum.HOTEL_LOBBY,
 		},
 	],
 	inventory: [],

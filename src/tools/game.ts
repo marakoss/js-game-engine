@@ -40,12 +40,14 @@ export function createGame(): IGame {
 				text: input,
 				data: createCommand(input),
 				time: new Date().getTime(),
+				location: state.currentPosition,
 			});
 
 			state.history.push({
 				type: historyTypeEnum.RESPONSE,
 				text: getResponse(state, dispatch),
 				time: new Date().getTime(),
+				location: state.currentPosition,
 			});
 			return state;
 		},

@@ -8,6 +8,7 @@ export enum possibleCommands {
 	JMENO = "jmeno",
 	RESET = "reset",
 	SAVE = "save",
+	LOOK = "look",
 }
 
 export const commandAliases = {
@@ -19,4 +20,5 @@ export const commandAliases = {
 	JMENO: ["jmeno", "me jmeno", "jake je me jmeno"],
 	RESET: ["reset"],
 	SAVE: ["save"],
+	LOOK: ["look", "podívej se", "kde jsem", "co to je"],
 };
