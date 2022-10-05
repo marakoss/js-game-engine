@@ -12,6 +12,8 @@ import { items } from "./items";
 import { entities } from "./entities";
 import { quests } from "./quests";
 
+export const defaultLocationActions = [CommandEnum.LOOK];
+
 export const locations = new Map([
 	[
 		LocationEnum.HOTEL_LOBBY,
@@ -31,7 +33,7 @@ export const locations = new Map([
 				},
 			],
 			state: [LocationStateEnum.NORMAL],
-			actions: [CommandEnum.TAKE],
+			actions: [CommandEnum.TAKE, CommandEnum.AHOJ],
 			quests: [quests.get(QuestEnum.INTRODUCTION)],
 		},
 	],

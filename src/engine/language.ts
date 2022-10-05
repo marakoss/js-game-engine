@@ -1,54 +1,102 @@
 import { CommandEnum, commandAliases } from "constants/commands";
+import { ItemEnum } from "constants/items";
+import { IGameState } from "types/gamestate";
+import { locations } from "game/locations";
 
-function getGuessedCommand(text: string) {
-	var lowest = 1000;
-	var intent = "";
-	const words = text.split(" ");
-	words.forEach((word: string) => {
-		type CommanKeyType = keyof typeof commandAliases;
-		const commandKeys = Object.keys(commandAliases) as CommanKeyType[];
-
-		commandKeys.forEach((key: CommanKeyType) => {
-			const distance = levenshteinDistance(
-				key.toUpperCase(),
-				word.toUpperCase()
-			);
-			if (distance < lowest) {
-				lowest = distance;
-				intent = key;
-			}
-
-			commandAliases[key].forEach((alias: string) => {
-				const distance = levenshteinDistance(
-					alias.toUpperCase(),
-					word.toUpperCase()
-				);
-				if (distance < lowest) {
-					lowest = distance;
-					intent = key;
-				}
-			});
-		});
-	});
-	return intent.toUpperCase() as CommandEnum;
+function getStringProbability(
+	word: string,
+	commandWord: string,
+	command: CommandEnum
+) {
+	return {
+		original: word,
+		command: command,
+		confidence: levenshteinDistance(
+			word.toLowerCase(),
+			commandWord.toLowerCase()
+		),
+	};
 }
 
-function getArguments(text: string, excludeCommand: string) {
+function getMostProbableCommand(word: string, includedCommands: CommandEnum[]) {
+	const possibleCommandAlisesInRoom = includedCommands.flatMap((command) => {
+		type CommandType = keyof typeof commandAliases;
+		const key = command as CommandType;
+		return commandAliases[key].map((alias) => {
+			return {
+				alias: alias,
+				command: key as CommandEnum,
+			};
+		});
+	});
+
+	const probableCommands = includedCommands.map((command) => {
+		return getStringProbability(word, command, command);
+	});
+
+	const probableAliases = possibleCommandAlisesInRoom.map((command) => {
+		return getStringProbability(word, command.alias, command.command);
+	});
+
+	const allPossibleCommands = [...probableCommands, ...probableAliases];
+
+	const sortedCommands = allPossibleCommands.sort((a, b) => {
+		return a.confidence >= b.confidence ? 1 : -1;
+	});
+
+	return sortedCommands[0];
+}
+
+export function getGuessedCommand(
+	sentence: string,
+	state: IGameState
+): CommandEnum {
+	const possibleCommandsInRoom = locations.get(
+		state.currentPosition
+	)!.actions;
+
+	const commands = sentence.split(" ").map((word) => {
+		return getMostProbableCommand(word, possibleCommandsInRoom);
+	});
+
+	const sortedCommands = commands.sort((a, b) => {
+		return a.confidence >= b.confidence ? 1 : -1;
+	});
+
+	return sortedCommands[0].command;
+}
+
+function getGuessedArgument(word: string) {
 	// get list of all entities
 	// get list of all items
 	// get list of all locations
 	// get list of all quests
-	return text;
+	const possibleItems = Object.keys(ItemEnum);
+
+	return {
+		original: word,
+		argument: possibleItems[0],
+		confidence: 0,
+	};
 }
 
-export function processRequest(text: string) {
-	const command = getGuessedCommand(text);
-	return {
-		command: command,
-		aguments: getArguments(text, command),
-		originalInput: text,
-		transformedInput: text.toLowerCase().trim(),
-	};
+function getGuessedArguments(words: string[]) {
+	return words.map((word) => {
+		return getGuessedArgument(word);
+	});
+}
+
+export function getArguments(
+	text: string,
+	excludeCommand: string,
+	state: IGameState
+) {
+	const words = text.split(" ").filter((value, _index, _array) => {
+		// TODO: filter giberish words
+		// TODO: filter useless words
+		return value.toLowerCase() !== excludeCommand.toLowerCase();
+	});
+	return getGuessedArguments(words);
 }
 
 const levenshteinDistance = (str1: string = "", str2: string = "") => {

@@ -3,7 +3,7 @@ import { IGameState } from "types/gamestate";
 import { CommandEnum } from "constants/commands";
 import { GameActionEnum } from "constants/game";
 import { playerProfile } from "game/player";
-import { locations } from "game/map";
+import { locations } from "game/locations";
 import { LocationDirectionEnum } from "constants/locations";
 import { LocationConnectionType } from "types/location";
 
@@ -75,6 +75,7 @@ export function getResponse(state: IGameState, dispatch: Function): string {
 		}
 
 		if (lastCommand.data.command == CommandEnum.TAKE) {
+			return `Vzal jsi `;
 		}
 
 		if (lastCommand.data.command == CommandEnum.LOOK) {

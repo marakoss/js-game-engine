@@ -1,6 +1,6 @@
 import { loadGame, saveGame, resetGame } from "engine/storage";
-import { processRequest } from "engine/language";
-import { getResponse } from "engine/responses";
+import { handleRequest } from "engine/request";
+import { getResponse } from "engine/response";
 import { initialGameState } from "game/state";
 import { historyTypeEnum } from "constants/history";
 import { IGame } from "types/game";
@@ -40,7 +40,7 @@ export function createGame(): IGame {
 			state.history.push({
 				type: historyTypeEnum.COMMAND,
 				text: input,
-				data: processRequest(input),
+				data: handleRequest(input, state, dispatch),
 				time: new Date().getTime(),
 				location: state.currentPosition,
 			});

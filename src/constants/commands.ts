@@ -15,6 +15,7 @@ export enum CommandEnum {
 }
 
 export const commandAliases = {
+	NOOP: [""],
 	AHOJ: ["cau", "hi", "zdar", "cauko"],
 	NORTH: ["n", "sever"],
 	SOUTH: ["s", "jih"],
@@ -26,5 +27,4 @@ export const commandAliases = {
 	LOOK: ["look", "podívej se", "kde jsem", "co to je", "x"],
 	HELP: ["pomoc", "jak", "jak na to", "napoveda", "porad mi"],
 	TAKE: ["vem", "vezmi", "seber", "zvedni", "get"],
-	NOOP: [""],
 };
