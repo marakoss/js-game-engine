@@ -1,16 +1,16 @@
-export enum LocationsEnum {
+export enum LocationEnum {
 	HOTEL_LOBBY = "HOTEL_LOBBY",
 	HOTEL_STAIRCASE = "HOTEL_STAIRCASE",
 	HOTEL_ROOM = "HOTEL_ROOM",
 }
 
-export enum LocationTypesEnum {
+export enum LocationTypeEnum {
 	PUBLIC = "PUBLIC",
 	PRIVATE = "PRIVATE",
 	HIDDEN = "HIDDEN",
 }
 
-export enum LocationDirectionsTypesEnum {
+export enum LocationDirectionEnum {
 	NORTH = "NORTH",
 	SOUTH = "SOUTH",
 	EAST = "EAST",
@@ -27,7 +27,7 @@ export enum LocationDirectionsTypesEnum {
 	SOUTHWEST = "SOUTHWEST",
 }
 
-export enum LocationStateTypesEnum {
+export enum LocationStateEnum {
 	NORMAL = "NORMAL",
 	DISTORTED = "DISTORTED",
 }

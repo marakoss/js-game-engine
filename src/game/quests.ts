@@ -1,10 +1,10 @@
-import { QuestTypesEnum, QuestStateTypeEnum } from "constants/quests";
+import { QuestEnum, QuestStateEnum } from "constants/quests";
 
 export const quests = new Map([
 	[
-		QuestTypesEnum.INTRODUCTION,
+		QuestEnum.INTRODUCTION,
 		{
-			state: [QuestStateTypeEnum.UNSOLVED],
+			state: [QuestStateEnum.UNSOLVED],
 			name: "Predstav se",
 		},
 	],

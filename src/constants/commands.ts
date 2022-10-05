@@ -1,4 +1,4 @@
-export enum CommandTypesEnum {
+export enum CommandEnum {
 	NOOP = "",
 	AHOJ = "ahoj",
 	SOUTH = "south",

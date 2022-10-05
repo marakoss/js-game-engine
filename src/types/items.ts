@@ -1,4 +1,4 @@
-export type InventoryItemType = {
+export type IInventoryItem = {
 	name: string;
 	description: string;
 };

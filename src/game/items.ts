@@ -1,8 +1,8 @@
-import { ItemTypesEnum } from "constants/items";
+import { ItemEnum } from "constants/items";
 
 export const items = new Map([
 	[
-		ItemTypesEnum.SHOVEL,
+		ItemEnum.SHOVEL,
 		{
 			name: "Lopata",
 			description:

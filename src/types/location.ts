@@ -1,11 +1,11 @@
 import {
-	LocationsEnum,
-	LocationTypesEnum,
-	LocationDirectionsTypesEnum,
+	LocationEnum,
+	LocationTypeEnum,
+	LocationDirectionEnum,
 } from "constants/locations";
 
 export type LocationConnectionType = {
-	link: LocationsEnum;
-	type: LocationTypesEnum;
-	direction: LocationDirectionsTypesEnum[];
+	link: LocationEnum;
+	type: LocationTypeEnum;
+	direction: LocationDirectionEnum[];
 };

@@ -1,8 +1,8 @@
-export enum QuestTypesEnum {
+export enum QuestEnum {
 	INTRODUCTION = "INTRODUCTION",
 }
 
-export enum QuestStateTypeEnum {
+export enum QuestStateEnum {
 	SOLVED = "SOLVED",
 	UNSOLVED = "UNSOLVED",
 	INPROGRESS = "INPROGRESS",

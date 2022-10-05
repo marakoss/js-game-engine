@@ -1,11 +1,11 @@
-export enum EntityTypesEnum {
+export enum EntityEnum {
 	GENIE = "GENIE",
 }
 
-export enum EntityActionsTypeEnum {
+export enum EntityActionTypeEnum {
 	BURP = "BURP",
 }
 
-export enum EntityAbilitiesTypeEnum {
+export enum EntityAbilityTypeEnum {
 	FLY = "FLY",
 }

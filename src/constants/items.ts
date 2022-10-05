@@ -1,3 +1,3 @@
-export enum ItemTypesEnum {
+export enum ItemEnum {
 	SHOVEL = "SHOVEL",
 }
