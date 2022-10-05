@@ -8,13 +8,21 @@ function getStringProbability(
 	commandWord: string,
 	command: CommandEnum
 ) {
+	const distance = levenshteinDistance(
+		word.toLowerCase(),
+		commandWord.toLowerCase()
+	);
+
+	const lengthDiff = Math.abs(word.length - commandWord.length);
+
+	const score = distance * (lengthDiff + 1) + 2.8;
 	return {
-		original: word,
+		original: {
+			word: word,
+			command: commandWord,
+		},
 		command: command,
-		confidence: levenshteinDistance(
-			word.toLowerCase(),
-			commandWord.toLowerCase()
-		),
+		confidence: 1 / Math.log(score),
 	};
 }
 
@@ -41,8 +49,19 @@ function getMostProbableCommand(word: string, includedCommands: CommandEnum[]) {
 	const allPossibleCommands = [...probableCommands, ...probableAliases];
 
 	const sortedCommands = allPossibleCommands.sort((a, b) => {
-		return a.confidence >= b.confidence ? 1 : -1;
+		return a.confidence >= b.confidence ? -1 : 1;
 	});
+
+	if (sortedCommands[0].confidence <= 0.6) {
+		return {
+			original: {
+				word: word,
+				command: CommandEnum.NOOP,
+			},
+			command: CommandEnum.NOOP,
+			confidence: 1,
+		};
+	}
 
 	return sortedCommands[0];
 }
@@ -59,11 +78,7 @@ export function getGuessedCommand(
 		return getMostProbableCommand(word, possibleCommandsInRoom);
 	});
 
-	const sortedCommands = commands.sort((a, b) => {
-		return a.confidence >= b.confidence ? 1 : -1;
-	});
-
-	return sortedCommands[0].command;
+	return commands[0].command;
 }
 
 function getGuessedArgument(word: string) {
