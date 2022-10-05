@@ -5,11 +5,24 @@ function getGuessedCommand(text: string) {
 	var intent = "";
 	const words = text.split(" ");
 	words.forEach((word: string) => {
-		const commandKeys = Object.keys(commandAliases);
-		commandKeys.forEach((key: string) => {
-			//@ts-expect-error FIXME
+		type CommanKeyType = keyof typeof commandAliases;
+		const commandKeys = Object.keys(commandAliases) as CommanKeyType[];
+
+		commandKeys.forEach((key: CommanKeyType) => {
+			const distance = levenshteinDistance(
+				key.toLowerCase(),
+				word.toLowerCase()
+			);
+			if (distance < lowest) {
+				lowest = distance;
+				intent = key;
+			}
+
 			commandAliases[key].forEach((alias: string) => {
-				const distance = levenshteinDistance(alias, word);
+				const distance = levenshteinDistance(
+					alias.toLowerCase(),
+					word.toLowerCase()
+				);
 				if (distance < lowest) {
 					lowest = distance;
 					intent = key;

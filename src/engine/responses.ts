@@ -12,11 +12,13 @@ const traverseMap = (
 	state: IGameState
 ) => {
 	const room = state.currentPosition;
-	const currentRoom = gameMap[room];
+	const currentRoom = gameMap.get(room)!;
 
 	const goToRoom: LocationConnectionType[] = currentRoom.connects.filter(
 		(connectedRoom: LocationConnectionType) => {
-			return connectedRoom.direction.find((el) => el === direction);
+			return connectedRoom.direction.find(
+				(el) => el.toLowerCase() === direction.toLowerCase()
+			);
 		}
 	);
 	if (goToRoom.length === 0) {
@@ -25,7 +27,9 @@ const traverseMap = (
 	state.currentPosition = goToRoom[0].link;
 
 	const newRoom = state.currentPosition;
-	const description = `${gameMap[newRoom].name} ${gameMap[newRoom].description}`;
+	const description = `${gameMap.get(newRoom)!.name} ${
+		gameMap.get(newRoom)!.description
+	}`;
 
 	return `${description}`;
 };
@@ -62,10 +66,10 @@ export function getResponse(state: IGameState, dispatch: Function): string {
 				CommandTypesEnum.SOUTH,
 				CommandTypesEnum.EAST,
 				CommandTypesEnum.WEST,
-			].includes(lastCommand.data.name.toUpperCase() as CommandTypesEnum)
+			].includes(lastCommand.data.name as CommandTypesEnum)
 		) {
 			return traverseMap(
-				lastCommand.data.name.toUpperCase() as LocationDirectionsTypesEnum,
+				lastCommand.data.name as LocationDirectionsTypesEnum,
 				state
 			);
 		}
@@ -78,7 +82,9 @@ export function getResponse(state: IGameState, dispatch: Function): string {
 		}
 
 		if (lastCommand.data.name == CommandTypesEnum.LOOK) {
-			const description = `${gameMap[room].name} ${gameMap[room].description}`;
+			const description = `${gameMap.get(room)!.name} ${
+				gameMap.get(room)!.description
+			}`;
 			return `Právě jsi ${description}`;
 		}
 
