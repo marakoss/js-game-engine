@@ -18,6 +18,6 @@ export const initialGameState: IGameState = {
 			location: LocationEnum.HOTEL_LOBBY,
 		},
 	],
-	inventory: [],
+	inventory: new Map(),
 	userProfile: playerProfile,
 };

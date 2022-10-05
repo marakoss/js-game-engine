@@ -8,11 +8,8 @@ import {
 import { QuestEnum } from "constants/quests";
 import { ItemEnum } from "constants/items";
 import { EntityEnum } from "constants/entities";
-import { items } from "./items";
-import { entities } from "./entities";
-import { quests } from "./quests";
 
-export const defaultLocationActions = [CommandEnum.LOOK];
+export const defaultLocationActions = [CommandEnum.LOOK, CommandEnum.HELP];
 
 export const locations = new Map([
 	[
@@ -20,8 +17,8 @@ export const locations = new Map([
 		{
 			name: "Vstupni hala",
 			description: "Prave se nachazite v hale temné hotelu",
-			items: [items.get(ItemEnum.SHOVEL)],
-			entities: [entities.get(EntityEnum.GENIE)],
+			items: new Map([[ItemEnum.SHOVEL, ItemEnum.SHOVEL]]),
+			entities: [EntityEnum.GENIE],
 			connects: [
 				{
 					link: LocationEnum.HOTEL_STAIRCASE,
@@ -34,7 +31,7 @@ export const locations = new Map([
 			],
 			state: [LocationStateEnum.NORMAL],
 			actions: [CommandEnum.TAKE, CommandEnum.AHOJ],
-			quests: [quests.get(QuestEnum.INTRODUCTION)],
+			quests: [QuestEnum.INTRODUCTION],
 		},
 	],
 	[
@@ -43,8 +40,8 @@ export const locations = new Map([
 			name: "Schody hotelu",
 			description:
 				"Prave se nachazite na starých vrzavých schodech hotelu",
-			items: [],
-			entities: [entities.get(EntityEnum.GENIE)],
+			items: new Map(),
+			entities: [EntityEnum.GENIE],
 			connects: [
 				{
 					link: LocationEnum.HOTEL_LOBBY,
@@ -65,8 +62,8 @@ export const locations = new Map([
 		{
 			name: "Pokoj hotelu",
 			description: "Jste v pokoji a haraší Vám ve věži",
-			items: [],
-			entities: [entities.get(EntityEnum.GENIE)],
+			items: new Map(),
+			entities: [EntityEnum.GENIE],
 			connects: [],
 			state: [LocationStateEnum.NORMAL],
 			actions: [],

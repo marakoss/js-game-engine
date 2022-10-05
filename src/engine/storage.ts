@@ -33,7 +33,7 @@ export function resetGame() {
 }
 
 function isLocalStorageAvailable() {
-	var test = "test";
+	const test = "test";
 	try {
 		localStorage.setItem(test, test);
 		localStorage.removeItem(test);

@@ -9,7 +9,7 @@ export function handleRequest(
 	const command = getGuessedCommand(input, state);
 	return {
 		command: command,
-		aguments: getArguments(input, command, state),
+		arguments: getArguments(input, command, state),
 		originalInput: input,
 		transformedInput: input.toLowerCase().trim(),
 	};

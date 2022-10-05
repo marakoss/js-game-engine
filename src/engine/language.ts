@@ -1,7 +1,10 @@
 import { CommandEnum, commandAliases } from "constants/commands";
 import { ItemEnum } from "constants/items";
+import { EntityEnum } from "constants/entities";
+import { LocationEnum } from "constants/locations";
+import { QuestEnum } from "constants/quests";
 import { IGameState } from "types/gamestate";
-import { locations } from "game/locations";
+import { defaultLocationActions, locations } from "game/locations";
 
 function getStringProbability(
 	word: string,
@@ -15,18 +18,21 @@ function getStringProbability(
 
 	const lengthDiff = Math.abs(word.length - commandWord.length);
 
-	const score = distance * (lengthDiff + 1) + 2.8;
+	//const score = distance * (lengthDiff + 1) + 2.8;
+	const score = 1 / (Math.pow(distance * (lengthDiff + 1), 2) + 1);
 	return {
 		original: {
 			word: word,
 			command: commandWord,
 		},
 		command: command,
-		confidence: 1 / Math.log(score),
+		confidence: score,
 	};
 }
 
 function getMostProbableCommand(word: string, includedCommands: CommandEnum[]) {
+	//TODO: Ignore 2 letter words
+
 	const possibleCommandAlisesInRoom = includedCommands.flatMap((command) => {
 		type CommandType = keyof typeof commandAliases;
 		const key = command as CommandType;
@@ -59,7 +65,7 @@ function getMostProbableCommand(word: string, includedCommands: CommandEnum[]) {
 				command: CommandEnum.NOOP,
 			},
 			command: CommandEnum.NOOP,
-			confidence: 1,
+			confidence: 0,
 		};
 	}
 
@@ -73,26 +79,74 @@ export function getGuessedCommand(
 	const possibleCommandsInRoom = locations.get(
 		state.currentPosition
 	)!.actions;
+	const allPossible = [...defaultLocationActions, ...possibleCommandsInRoom];
+	const commands = sentence
+		.replace(/\s\s+/g, " ")
+		.split(" ")
+		.map((word) => {
+			return getMostProbableCommand(word, allPossible);
+		});
 
-	const commands = sentence.split(" ").map((word) => {
-		return getMostProbableCommand(word, possibleCommandsInRoom);
+	const sortedCommands = commands.sort((a, b) => {
+		return a.confidence >= b.confidence ? -1 : 1;
 	});
 
-	return commands[0].command;
+	return sortedCommands[0].command;
+}
+
+function getStringArgumentProbability(word: string, argument: string) {
+	const distance = levenshteinDistance(
+		word.toLowerCase(),
+		argument.toLowerCase()
+	);
+
+	const lengthDiff = Math.abs(word.length - argument.length);
+
+	//const score = 1 / Math.log(distance * (lengthDiff + 1));
+	const score = 1 / (Math.pow(distance * (lengthDiff + 1), 2) + 1);
+	return {
+		original: {
+			word: word,
+		},
+		argument: argument,
+		confidence: score,
+	};
 }
 
 function getGuessedArgument(word: string) {
-	// get list of all entities
-	// get list of all items
-	// get list of all locations
-	// get list of all quests
+	// get list of all entities, itemsm locations, quests
 	const possibleItems = Object.keys(ItemEnum);
+	const possibleEntities = Object.keys(EntityEnum);
+	const possibleLocations = Object.keys(LocationEnum);
+	const possibleQuests = Object.keys(QuestEnum);
 
-	return {
-		original: word,
-		argument: possibleItems[0],
-		confidence: 0,
-	};
+	const allPossibleArguments = [
+		...possibleItems,
+		...possibleEntities,
+		...possibleLocations,
+		...possibleQuests,
+	];
+
+	// calculate probability for each word against possible arguments
+	const ratedArguments = allPossibleArguments.map((argument) => {
+		return getStringArgumentProbability(word, argument);
+	});
+
+	const sortedArguments = ratedArguments.sort((a, b) => {
+		return a.confidence >= b.confidence ? -1 : 1;
+	});
+
+	if (sortedArguments[0].confidence <= 0.6) {
+		return {
+			original: {
+				word: word,
+			},
+			argument: null,
+			confidence: 0,
+		};
+	}
+
+	return sortedArguments[0];
 }
 
 function getGuessedArguments(words: string[]) {
@@ -102,16 +156,27 @@ function getGuessedArguments(words: string[]) {
 }
 
 export function getArguments(
-	text: string,
+	input: string,
 	excludeCommand: string,
 	state: IGameState
 ) {
-	const words = text.split(" ").filter((value, _index, _array) => {
-		// TODO: filter giberish words
-		// TODO: filter useless words
-		return value.toLowerCase() !== excludeCommand.toLowerCase();
+	const words = input
+		.replace(/\s\s+/g, " ")
+		.split(" ")
+		.filter((value, _index, _array) => {
+			// TODO: filter giberish words
+			// TODO: filter useless words
+			// TODO: filter profanity
+			return value.toLowerCase() !== excludeCommand.toLowerCase();
+		});
+
+	const allArguments = getGuessedArguments(words);
+
+	const sortedArguments = allArguments.sort((a, b) => {
+		return a.confidence >= b.confidence ? -1 : 1;
 	});
-	return getGuessedArguments(words);
+
+	return sortedArguments;
 }
 
 const levenshteinDistance = (str1: string = "", str2: string = "") => {
