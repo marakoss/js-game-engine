@@ -3,13 +3,13 @@ import { IGameState } from "types/gamestate";
 import { CommandEnum } from "constants/commands";
 import { GameActionEnum } from "constants/game";
 import { playerProfile } from "game/player";
-import { gameMap } from "game/map";
+import { locations } from "game/map";
 import { LocationDirectionEnum } from "constants/locations";
 import { LocationConnectionType } from "types/location";
 
 const traverseMap = (direction: LocationDirectionEnum, state: IGameState) => {
 	const room = state.currentPosition;
-	const currentRoom = gameMap.get(room)!;
+	const currentRoom = locations.get(room)!;
 
 	const goToRoom: LocationConnectionType[] = currentRoom.connects.filter(
 		(connectedRoom: LocationConnectionType) => {
@@ -24,8 +24,8 @@ const traverseMap = (direction: LocationDirectionEnum, state: IGameState) => {
 	state.currentPosition = goToRoom[0].link;
 
 	const newRoom = state.currentPosition;
-	const description = `${gameMap.get(newRoom)!.name} ${
-		gameMap.get(newRoom)!.description
+	const description = `${locations.get(newRoom)!.name} ${
+		locations.get(newRoom)!.description
 	}`;
 
 	return `${description}`;
@@ -39,7 +39,7 @@ export function getResponse(state: IGameState, dispatch: Function): string {
 			typeof state.history === "object" &&
 			state.history.length > 0) === false
 	)
-		return "";
+		return "Something has gone terribly wrong";
 
 	function getHistory(index: number) {
 		if (index < 0) return initialGameState.history[0];
@@ -63,42 +63,41 @@ export function getResponse(state: IGameState, dispatch: Function): string {
 				CommandEnum.SOUTH,
 				CommandEnum.EAST,
 				CommandEnum.WEST,
-			].includes(lastCommand.data.name as CommandEnum)
+			].includes(lastCommand.data.command as CommandEnum)
 		) {
-			return traverseMap(
-				lastCommand.data.name as LocationDirectionEnum,
-				state
-			);
+			const direction = lastCommand.data
+				.command as unknown as LocationDirectionEnum;
+			return traverseMap(direction, state);
 		}
 
-		if (lastCommand.data.name == CommandEnum.JMENO) {
+		if (lastCommand.data.command == CommandEnum.JMENO) {
 			return `Řekl jsi mi, že se jmenuješ ${state.userProfile.name}`;
 		}
 
-		if (lastCommand.data.name == CommandEnum.TAKE) {
+		if (lastCommand.data.command == CommandEnum.TAKE) {
 		}
 
-		if (lastCommand.data.name == CommandEnum.LOOK) {
-			const description = `${gameMap.get(room)!.name} ${
-				gameMap.get(room)!.description
+		if (lastCommand.data.command == CommandEnum.LOOK) {
+			const description = `${locations.get(room)!.name} ${
+				locations.get(room)!.description
 			}`;
 			return `Právě jsi ${description}`;
 		}
 
-		if (lastCommand.data.name == CommandEnum.AHOJ) {
+		if (lastCommand.data.command == CommandEnum.AHOJ) {
 			if (playerProfile.name === null) return `ahoj, jake je tve jmeno?`;
 			else return "ahoj";
 		}
-		if (lastCommand.data.name == CommandEnum.RESET) {
+		if (lastCommand.data.command == CommandEnum.RESET) {
 			dispatch(GameActionEnum.RESET);
 			return `Starting a new game`;
 		}
 
-		if (lastCommand.data.name == CommandEnum.SAVE) {
+		if (lastCommand.data.command == CommandEnum.SAVE) {
 			dispatch(GameActionEnum.SAVE);
 			return `The game was saved`;
 		}
-		if (lastCommand.data.name == CommandEnum.LOAD) {
+		if (lastCommand.data.command == CommandEnum.LOAD) {
 			dispatch(GameActionEnum.LOAD);
 			return `The game was loaded from savefile`;
 		}

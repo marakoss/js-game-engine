@@ -1,5 +1,5 @@
 import { loadGame, saveGame, resetGame } from "engine/storage";
-import { createCommand } from "engine/language";
+import { processRequest } from "engine/language";
 import { getResponse } from "engine/responses";
 import { initialGameState } from "game/state";
 import { historyTypeEnum } from "constants/history";
@@ -36,10 +36,11 @@ export function createGame(): IGame {
 			resetGame();
 		},
 		handleInput: function (input: string) {
+			// TODO: input xss injection protection
 			state.history.push({
 				type: historyTypeEnum.COMMAND,
 				text: input,
-				data: createCommand(input),
+				data: processRequest(input),
 				time: new Date().getTime(),
 				location: state.currentPosition,
 			});

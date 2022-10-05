@@ -12,7 +12,7 @@ import { items } from "./items";
 import { entities } from "./entities";
 import { quests } from "./quests";
 
-export const gameMap = new Map([
+export const locations = new Map([
 	[
 		LocationEnum.HOTEL_LOBBY,
 		{

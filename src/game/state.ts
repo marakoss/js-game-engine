@@ -1,3 +1,4 @@
+import { CommandEnum } from "constants/commands";
 import { historyTypeEnum } from "constants/history";
 import { IGameState } from "types/gamestate";
 import { playerProfile } from "./player";
@@ -11,9 +12,7 @@ export const initialGameState: IGameState = {
 			type: historyTypeEnum.RESPONSE,
 			text: "Vitej ve hře. Nápovědu zobrazíš napsáním HELP a stiskem klávesy ENTER",
 			data: {
-				name: "",
-				originalInput: "",
-				transformedInput: "",
+				command: CommandEnum.NOOP,
 			},
 			time: new Date().getTime(),
 			location: LocationEnum.HOTEL_LOBBY,

@@ -1,4 +1,4 @@
-import { commandAliases } from "constants/commands";
+import { CommandEnum, commandAliases } from "constants/commands";
 
 function getGuessedCommand(text: string) {
 	var lowest = 1000;
@@ -10,8 +10,8 @@ function getGuessedCommand(text: string) {
 
 		commandKeys.forEach((key: CommanKeyType) => {
 			const distance = levenshteinDistance(
-				key.toLowerCase(),
-				word.toLowerCase()
+				key.toUpperCase(),
+				word.toUpperCase()
 			);
 			if (distance < lowest) {
 				lowest = distance;
@@ -20,8 +20,8 @@ function getGuessedCommand(text: string) {
 
 			commandAliases[key].forEach((alias: string) => {
 				const distance = levenshteinDistance(
-					alias.toLowerCase(),
-					word.toLowerCase()
+					alias.toUpperCase(),
+					word.toUpperCase()
 				);
 				if (distance < lowest) {
 					lowest = distance;
@@ -30,12 +30,22 @@ function getGuessedCommand(text: string) {
 			});
 		});
 	});
-	return intent.toLowerCase();
+	return intent.toUpperCase() as CommandEnum;
 }
 
-export function createCommand(text: string) {
+function getArguments(text: string, excludeCommand: string) {
+	// get list of all entities
+	// get list of all items
+	// get list of all locations
+	// get list of all quests
+	return text;
+}
+
+export function processRequest(text: string) {
+	const command = getGuessedCommand(text);
 	return {
-		name: getGuessedCommand(text),
+		command: command,
+		aguments: getArguments(text, command),
 		originalInput: text,
 		transformedInput: text.toLowerCase().trim(),
 	};

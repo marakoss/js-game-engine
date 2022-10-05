@@ -1,3 +1,4 @@
+import { CommandEnum } from "constants/commands";
 import { historyTypeEnum } from "constants/history";
 import { LocationEnum } from "constants/locations";
 
@@ -10,7 +11,8 @@ export type IHistory = {
 };
 
 export type IHistorydata = {
-	name: string;
-	originalInput: string;
-	transformedInput: string;
+	command: CommandEnum;
+	arguments?: string[];
+	originalInput?: string;
+	transformedInput?: string;
 };
