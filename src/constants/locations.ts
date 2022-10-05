@@ -26,3 +26,8 @@ export enum LocationDirectionsTypesEnum {
 	SOUTHEAST = "SOUTHEAST",
 	SOUTHWEST = "SOUTHWEST",
 }
+
+export enum LocationStateTypesEnum {
+	NORMAL = "NORMAL",
+	DISTORTED = "DISTORTED",
+}

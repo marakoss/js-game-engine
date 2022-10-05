@@ -1,6 +1,6 @@
 import { initialGameState } from "game/state";
 import { IGameState } from "types/gamestate";
-import { possibleCommands } from "constants/commands";
+import { CommandTypesEnum } from "constants/commands";
 import { GameActionEnum } from "constants/game";
 import { playerProfile } from "game/player";
 import { gameMap } from "game/map";
@@ -9,8 +9,7 @@ import { LocationConnectionType } from "types/location";
 
 const traverseMap = (
 	direction: LocationDirectionsTypesEnum,
-	state: IGameState,
-	dispatch: Function
+	state: IGameState
 ) => {
 	const room = state.currentPosition;
 	const currentRoom = gameMap[room];
@@ -49,6 +48,7 @@ export function getResponse(state: IGameState, dispatch: Function): string {
 
 	const lastCommand = getHistory(state.history.length - 1);
 	const lastMessage = getHistory(state.history.length - 2);
+	const room = state.currentPosition;
 
 	if (lastMessage.text == "ahoj, jake je tve jmeno?") {
 		state.userProfile.name = lastCommand.text;
@@ -56,61 +56,50 @@ export function getResponse(state: IGameState, dispatch: Function): string {
 	}
 
 	if (lastCommand.data !== undefined) {
-		if (lastCommand.data.name == possibleCommands.JMENO) {
+		if (
+			[
+				CommandTypesEnum.NORTH,
+				CommandTypesEnum.SOUTH,
+				CommandTypesEnum.EAST,
+				CommandTypesEnum.WEST,
+			].includes(lastCommand.data.name.toUpperCase() as CommandTypesEnum)
+		) {
+			return traverseMap(
+				lastCommand.data.name.toUpperCase() as LocationDirectionsTypesEnum,
+				state
+			);
+		}
+
+		if (lastCommand.data.name == CommandTypesEnum.JMENO) {
 			return `Řekl jsi mi, že se jmenuješ ${state.userProfile.name}`;
 		}
 
-		if (lastCommand.data.name == possibleCommands.LOOK) {
-			const room = state.currentPosition;
+		if (lastCommand.data.name == CommandTypesEnum.TAKE) {
+		}
+
+		if (lastCommand.data.name == CommandTypesEnum.LOOK) {
 			const description = `${gameMap[room].name} ${gameMap[room].description}`;
 			return `Právě jsi ${description}`;
 		}
 
-		if (lastCommand.data.name == possibleCommands.NORTH) {
-			return traverseMap(
-				LocationDirectionsTypesEnum.NORTH,
-				state,
-				dispatch
-			);
-		}
-
-		if (lastCommand.data.name == possibleCommands.SOUTH) {
-			return traverseMap(
-				LocationDirectionsTypesEnum.SOUTH,
-				state,
-				dispatch
-			);
-		}
-
-		if (lastCommand.data.name == possibleCommands.EAST) {
-			return traverseMap(
-				LocationDirectionsTypesEnum.EAST,
-				state,
-				dispatch
-			);
-		}
-
-		if (lastCommand.data.name == possibleCommands.WEST) {
-			return traverseMap(
-				LocationDirectionsTypesEnum.WEST,
-				state,
-				dispatch
-			);
-		}
-
-		if (lastCommand.data.name == possibleCommands.AHOJ) {
+		if (lastCommand.data.name == CommandTypesEnum.AHOJ) {
 			if (playerProfile.name === null) return `ahoj, jake je tve jmeno?`;
 			else return "ahoj";
 		}
-		if (lastCommand.data.name == possibleCommands.RESET) {
+		if (lastCommand.data.name == CommandTypesEnum.RESET) {
 			dispatch(GameActionEnum.RESET);
 			return `Starting a new game`;
 		}
-		if (lastCommand.data.name == possibleCommands.SAVE) {
+
+		if (lastCommand.data.name == CommandTypesEnum.SAVE) {
 			dispatch(GameActionEnum.SAVE);
 			return `The game was saved`;
 		}
+		if (lastCommand.data.name == CommandTypesEnum.LOAD) {
+			dispatch(GameActionEnum.LOAD);
+			return `The game was loaded from savefile`;
+		}
 	}
 
-	return "";
+	return "Nerozumím kmenu tvého řeče (a pokud si myslíš, že bych ti měl rozumnět, tak zkus někdy programovat natural language engine)";
 }

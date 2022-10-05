@@ -9,7 +9,7 @@ export const initialGameState: IGameState = {
 	history: [
 		{
 			type: historyTypeEnum.RESPONSE,
-			text: "Vitej",
+			text: "Vitej ve hře. Nápovědu zobrazíš napsáním HELP a stiskem klávesy ENTER",
 			data: {
 				name: "",
 				originalInput: "",

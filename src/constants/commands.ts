@@ -1,4 +1,4 @@
-export enum possibleCommands {
+export enum CommandTypesEnum {
 	NOOP = "",
 	AHOJ = "ahoj",
 	SOUTH = "south",
@@ -8,11 +8,13 @@ export enum possibleCommands {
 	JMENO = "jmeno",
 	RESET = "reset",
 	SAVE = "save",
+	LOAD = "load",
 	LOOK = "look",
+	HELP = "help",
+	TAKE = "take",
 }
 
 export const commandAliases = {
-	NOOP: [""],
 	AHOJ: ["cau", "hi", "zdar", "cauko"],
 	NORTH: ["n", "sever"],
 	SOUTH: ["s", "jih"],
@@ -20,5 +22,9 @@ export const commandAliases = {
 	JMENO: ["jmeno", "me jmeno", "jake je me jmeno"],
 	RESET: ["reset"],
 	SAVE: ["save"],
-	LOOK: ["look", "podívej se", "kde jsem", "co to je"],
+	LOAD: ["load"],
+	LOOK: ["look", "podívej se", "kde jsem", "co to je", "x"],
+	HELP: ["pomoc", "jak", "jak na to", "napoveda", "porad mi"],
+	TAKE: ["vem", "vezmi", "seber", "zvedni", "get"],
+	NOOP: [""],
 };

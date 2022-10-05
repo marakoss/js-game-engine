@@ -32,6 +32,7 @@ export function createGame(): IGame {
 			loadGame();
 		},
 		resetGame: function () {
+			// TODO: RESET GAME STATE
 			resetGame();
 		},
 		handleInput: function (input: string) {
