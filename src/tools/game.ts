@@ -5,6 +5,7 @@ import { initialGameState } from "game/state";
 import { historyTypeEnum } from "constants/history";
 import { IGame } from "types/game";
 import { GameActionEnum } from "constants/game";
+import { CommandEnum } from "constants/commands";
 
 export function createGame(): IGame {
 	const state = loadGame() ?? initialGameState;
@@ -48,6 +49,12 @@ export function createGame(): IGame {
 			state.history.push({
 				type: historyTypeEnum.RESPONSE,
 				text: getResponse(state, dispatch),
+				data: {
+					command: CommandEnum.NOOP,
+					arguments: [],
+					originalInput: "",
+					transformedInput: "",
+				},
 				time: new Date().getTime(),
 				location: state.currentPosition,
 			});

@@ -76,10 +76,20 @@ export function getGuessedCommand(
 	sentence: string,
 	state: IGameState
 ): CommandEnum {
-	const possibleCommandsInRoom = locations.get(
-		state.currentPosition
-	)!.actions;
-	const allPossible = [...defaultLocationActions, ...possibleCommandsInRoom];
+	const currentRoom = locations.get(state.currentPosition);
+	if (currentRoom === undefined) return CommandEnum.NOOP;
+
+	const possibleCommandsInRoom = currentRoom.actions;
+	const possibleDirectionsInRoom = currentRoom.connects.flatMap((el) => {
+		return el.direction as unknown as CommandEnum;
+	});
+
+	const allPossible = [
+		...defaultLocationActions,
+		...possibleDirectionsInRoom,
+		...possibleCommandsInRoom,
+	];
+
 	const commands = sentence
 		.replace(/\s\s+/g, " ")
 		.split(" ")

@@ -8,17 +8,23 @@ import {
 import { QuestEnum } from "constants/quests";
 import { ItemEnum } from "constants/items";
 import { EntityEnum } from "constants/entities";
+import { items } from "./items";
+import { entities } from "./entities";
+import { quests } from "./quests";
+import { ILocation } from "types/location";
 
 export const defaultLocationActions = [CommandEnum.LOOK, CommandEnum.HELP];
 
-export const locations = new Map([
+export const locations: Map<LocationEnum, ILocation> = new Map([
 	[
 		LocationEnum.HOTEL_LOBBY,
 		{
 			name: "Vstupni hala",
 			description: "Prave se nachazite v hale temné hotelu",
-			items: new Map([[ItemEnum.SHOVEL, ItemEnum.SHOVEL]]),
-			entities: [EntityEnum.GENIE],
+			items: new Map([[ItemEnum.SHOVEL, items.get(ItemEnum.SHOVEL)!]]),
+			entities: new Map([
+				[EntityEnum.GENIE, entities.get(EntityEnum.GENIE)!],
+			]),
 			connects: [
 				{
 					link: LocationEnum.HOTEL_STAIRCASE,
@@ -31,7 +37,9 @@ export const locations = new Map([
 			],
 			state: [LocationStateEnum.NORMAL],
 			actions: [CommandEnum.TAKE, CommandEnum.AHOJ],
-			quests: [QuestEnum.INTRODUCTION],
+			quests: new Map([
+				[QuestEnum.INTRODUCTION, quests.get(QuestEnum.INTRODUCTION)!],
+			]),
 		},
 	],
 	[
@@ -41,7 +49,9 @@ export const locations = new Map([
 			description:
 				"Prave se nachazite na starých vrzavých schodech hotelu",
 			items: new Map(),
-			entities: [EntityEnum.GENIE],
+			entities: new Map([
+				[EntityEnum.GENIE, entities.get(EntityEnum.GENIE)!],
+			]),
 			connects: [
 				{
 					link: LocationEnum.HOTEL_LOBBY,
@@ -54,7 +64,7 @@ export const locations = new Map([
 			],
 			state: [LocationStateEnum.NORMAL],
 			actions: [],
-			quests: [],
+			quests: new Map(),
 		},
 	],
 	[
@@ -63,11 +73,13 @@ export const locations = new Map([
 			name: "Pokoj hotelu",
 			description: "Jste v pokoji a haraší Vám ve věži",
 			items: new Map(),
-			entities: [EntityEnum.GENIE],
+			entities: new Map([
+				[EntityEnum.GENIE, entities.get(EntityEnum.GENIE)!],
+			]),
 			connects: [],
 			state: [LocationStateEnum.NORMAL],
 			actions: [],
-			quests: [],
+			quests: new Map(),
 		},
 	],
 ]);

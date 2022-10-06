@@ -8,7 +8,7 @@ import { QuestEnum } from "constants/quests";
 export type IHistory = {
 	type: historyTypeEnum;
 	text: string;
-	data?: IHistorydata;
+	data: IHistorydata;
 	time: Date | number;
 	location: LocationEnum;
 };
