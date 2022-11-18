@@ -19,7 +19,7 @@ export const responders: IResponders = {
 		try {
 			return handler(state.history.at(-1)!, state, currentRoom, dispatch);
 		} catch (e) {
-			return "Handler not registered";
+			return "S touhle informací si (zatím) neumím poradit";
 		}
 	},
 	callHandlers(state, dispatch) {

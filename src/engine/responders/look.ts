@@ -9,6 +9,7 @@ function lookHandler(
 	dispatch: Function
 ) {
 	const description = `${currentRoom.name} ${currentRoom!.description}`;
+	currentRoom.items
 	return `Právě jsi v ${description}`;
 }
 
